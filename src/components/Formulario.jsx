@@ -219,42 +219,45 @@ const Formulario = () => {
     contraseña: '',
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+
+  ////verificando///
+  const [camposInvalidos, setCamposInvalidos] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí puedes enviar los datos a tu servidor o hacer lo que desees con ellos
-  };
-////////////////////Alerts//////////
-
-const MyForm = () => {
-  const [formData, setFormData] = useState({
-    nombre: '',
-    email: '',
-    // Agrega más campos de formulario según sea necesario
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Valida los campos del formulario
-    if (formData.nombre === '' || formData.email === '') {
-      alert('Por favor completa todos los campos del formulario.');
-      return;
+  
+    const camposFaltantes = [];
+    if (formData.nombres === '') {
+      camposFaltantes.push('Nombres');
     }
-
-    // Si todos los campos están completos, puedes enviar los datos o realizar otra acción
-    // Aquí puedes agregar la lógica para enviar los datos a tu servidor, por ejemplo.
+    if (formData.apellidos === '') {
+      camposFaltantes.push('Apellidos');
+    }
+    if (formData.dni === '') {
+      camposFaltantes.push('Apellidos');
+    }
+    if (formData.telefono === '') {
+      camposFaltantes.push('Apellidos');
+    }
+    if (formData.correo === '') {
+      camposFaltantes.push('Apellidos');
+    }
+    if (formData.contraseña === '') {
+      camposFaltantes.push('Apellidos');
+    }
+   
+  
+    setCamposInvalidos(camposFaltantes);
+  
+    if (camposFaltantes.length > 0) {
+      alert(`Falta rellenar los siguientes campos: ${camposFaltantes.join(', ')}`);
+    } else {
+      alert("Enviando datos");
+    }
   };
+  
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-}
+
   return (
     <Cuerpo>
       <ContFormu>
@@ -269,22 +272,21 @@ const MyForm = () => {
           </Textos>
         </Parte1>
         <Part2>
-          <FormContent onSubmit={handleSubmit}>
+        <FormContent onSubmit={handleSubmit}>
             <Column>
               <Label>Nombres</Label>
               <Input
                 type="text"
                 name="nombres"
                 value={formData.nombres}
-                onChange={handleChange}
+                
               />
-
               <Label>Apellidos</Label>
               <Input
                 type="text"
                 name="apellidos"
                 value={formData.apellidos}
-                onChange={handleChange}
+                
               />
 
               <Label>DNI</Label>
@@ -292,10 +294,10 @@ const MyForm = () => {
                 type="text"
                 name="dni"
                 value={formData.dni}
-                onChange={handleChange}
+ 
               />
               <Label>Sexo</Label>
-              <Select name="sexo" value={formData.sexo} onChange={handleChange}>
+              <Select name="sexo" value={formData.sexo}  required>
                 <option value="Masculino">Masculino</option>
                 <option value="Femenino">Femenino</option>
                 <option value="*/">Otro</option>
@@ -313,7 +315,7 @@ const MyForm = () => {
                 type="text"
                 name="telefono"
                 value={formData.telefono}
-                onChange={handleChange}
+
               />
 
               <Label>Correo</Label>
@@ -321,7 +323,7 @@ const MyForm = () => {
                 type="email"
                 name="correo"
                 value={formData.correo}
-                onChange={handleChange}
+
               />
 
               <Label>Contraseña</Label>
@@ -329,7 +331,7 @@ const MyForm = () => {
                 type="password"
                 name="contraseña"
                 value={formData.contraseña}
-                onChange={handleChange}
+
               />
             </Column>
             <Button type="submit">Enviar</Button>
