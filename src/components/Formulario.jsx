@@ -208,6 +208,36 @@ const Icon2 = styled(MdEmail)`
 `;
 
 const Formulario = () => {
+
+  const [formularioValido, setFormularioValido] = useState(true);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+  
+    if (name === 'telefono') {
+      // Validar que el campo "Teléfono" solo contenga números
+      if (!/^\d*$/.test(value)) {
+        alert('El campo Teléfono solo debe contener números.');
+        setFormularioValido(false); // Marcar el formulario como inválido
+      } else {
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+  
+        // Restablecer el estado del formulario como válido si no hay errores
+        setFormularioValido(true);
+      }
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+  
+      // Restablecer el estado del formulario como válido si no hay errores
+      setFormularioValido(true);
+    }
+  };
   const [formData, setFormData] = useState({
     nombres: '',
     apellidos: '',
@@ -219,7 +249,7 @@ const Formulario = () => {
     contraseña: '',
   });
 
-
+  
   ////verificando///
   const [camposInvalidos, setCamposInvalidos] = useState([]);
 
@@ -227,36 +257,39 @@ const Formulario = () => {
     e.preventDefault();
   
     const camposFaltantes = [];
-    if (formData.nombres === '') {
-      camposFaltantes.push('Nombres');
+  
+    switch ('') {
+      case formData.nombres:
+        camposFaltantes.push('nombres');
+        break;
+      case formData.apellidos:
+        camposFaltantes.push('apellidos');
+        break;
+      case formData.dni:
+        camposFaltantes.push('dni');
+        break;
+      case formData.telefono:
+        camposFaltantes.push('telefono');
+        break;
+      case formData.correo:
+        camposFaltantes.push('correo');
+        break;
+      case formData.contraseña:
+        camposFaltantes.push('contraseña');
+        break;
     }
-    if (formData.apellidos === '') {
-      camposFaltantes.push('Apellidos');
-    }
-    if (formData.dni === '') {
-      camposFaltantes.push('Apellidos');
-    }
-    if (formData.telefono === '') {
-      camposFaltantes.push('Apellidos');
-    }
-    if (formData.correo === '') {
-      camposFaltantes.push('Apellidos');
-    }
-    if (formData.contraseña === '') {
-      camposFaltantes.push('Apellidos');
-    }
-   
   
     setCamposInvalidos(camposFaltantes);
+    
   
     if (camposFaltantes.length > 0) {
       alert(`Falta rellenar los siguientes campos: ${camposFaltantes.join(', ')}`);
+    } else if (!formularioValido) {
+      alert('El formulario no es válido. Por favor, corrija los errores.');
     } else {
-      alert("Enviando datos");
+      alert('Enviando datos');
     }
   };
-  
-
 
   return (
     <Cuerpo>
@@ -279,6 +312,7 @@ const Formulario = () => {
                 type="text"
                 name="nombres"
                 value={formData.nombres}
+                onChange={(e) => setFormData({ ...formData, nombres: e.target.value })}
                 
               />
               <Label>Apellidos</Label>
@@ -286,6 +320,7 @@ const Formulario = () => {
                 type="text"
                 name="apellidos"
                 value={formData.apellidos}
+                onChange={(e) => setFormData({ ...formData, apellidos: e.target.value })}
                 
               />
 
@@ -294,6 +329,7 @@ const Formulario = () => {
                 type="text"
                 name="dni"
                 value={formData.dni}
+                onChange={(e) => setFormData({ ...formData, dni: e.target.value })}
  
               />
               <Label>Sexo</Label>
@@ -301,6 +337,7 @@ const Formulario = () => {
                 <option value="Masculino">Masculino</option>
                 <option value="Femenino">Femenino</option>
                 <option value="*/">Otro</option>
+                onChange={(e) => setFormData({ ...formData, sexo: e.target.value })}
               </Select>
               
               </Column>
@@ -315,6 +352,7 @@ const Formulario = () => {
                 type="text"
                 name="telefono"
                 value={formData.telefono}
+                onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
 
               />
 
@@ -323,6 +361,7 @@ const Formulario = () => {
                 type="email"
                 name="correo"
                 value={formData.correo}
+                onChange={(e) => setFormData({ ...formData, correo: e.target.value })}
 
               />
 
@@ -331,6 +370,8 @@ const Formulario = () => {
                 type="password"
                 name="contraseña"
                 value={formData.contraseña}
+                
+                onChange={(e) => setFormData({ ...formData, contraseña: e.target.value })}
 
               />
             </Column>
