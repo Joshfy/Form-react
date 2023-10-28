@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Logo from '../assets/logo.png';
 import Ema from '../assets/verde.jpg';
+import Alert from './Alert'; // Asegúrate de ajustar la ruta de importación
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import  { useState } from 'react';
@@ -209,35 +210,28 @@ const Icon2 = styled(MdEmail)`
 
 const Formulario = () => {
 
+
+  //aAa   //
+
   const [formularioValido, setFormularioValido] = useState(true);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-  
-    if (name === 'telefono') {
-      // Validar que el campo "Teléfono" solo contenga números
-      if (!/^\d*$/.test(value)) {
-        alert('El campo Teléfono solo debe contener números.');
-        setFormularioValido(false); // Marcar el formulario como inválido
-      } else {
-        setFormData({
-          ...formData,
-          [name]: value,
-        });
-  
-        // Restablecer el estado del formulario como válido si no hay errores
-        setFormularioValido(true);
-      }
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-  
-      // Restablecer el estado del formulario como válido si no hay errores
-      setFormularioValido(true);
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+
+  if (name === 'telefono') {
+    // Validar que el campo "Teléfono" solo contenga números
+    if (!/^\d*$/.test(value)) {
+      alert('El campo Teléfono solo debe contener números.');
+      setFormularioValido(false); // Marcar el formulario como inválido
     }
-  };
+  }
+
+  setFormData({
+    ...formData,
+    [name]: value,
+  });
+};  
+
   const [formData, setFormData] = useState({
     nombres: '',
     apellidos: '',
@@ -326,7 +320,7 @@ const Formulario = () => {
 
               <Label>DNI</Label>
               <Input
-                type="text"
+                type="number"
                 name="dni"
                 value={formData.dni}
                 onChange={(e) => setFormData({ ...formData, dni: e.target.value })}
